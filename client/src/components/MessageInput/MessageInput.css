@@ -1,0 +1,10 @@
+.messageInput {
+    width: calc(100% - 150px);
+    margin: 20px;
+}
+
+.sendMessage {
+    right: 0;
+    margin: 20px;
+    bottom: 0;
+}

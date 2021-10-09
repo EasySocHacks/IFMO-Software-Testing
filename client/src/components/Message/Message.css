@@ -1,0 +1,10 @@
+.messageBox {
+    border: 1px solid black;
+    border-radius: 5px;
+    background: #e0faf5;
+    width: 400px;
+    margin: 20px;
+    padding: 10px;
+    margin-bottom: 50px;
+    overflow: hidden;
+}

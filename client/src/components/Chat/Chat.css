@@ -1,0 +1,25 @@
+.shiftLeft {
+    width: 100%;
+    left: 0;
+    display: inline-block;
+}
+
+.shiftRight {
+    width: 100%;
+    right: 0;
+    display: inline-block;
+}
+
+.chatBox {
+    position: relative;
+}
+
+.messageBoxRight {
+    display: inline-block;
+    float: right;
+}
+
+.messageBoxLeft {
+    display: inline-block;
+    float: left;
+}
