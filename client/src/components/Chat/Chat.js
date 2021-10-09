@@ -9,7 +9,7 @@ export interface CharInterface {
 
 export default function Chat(props: CharInterface) {
     const queryParams = new URLSearchParams(window.location.search);
-console.log(props.messages);
+
     return (
         <div>
             {props.messages.map((message) => {
