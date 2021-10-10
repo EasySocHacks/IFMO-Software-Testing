@@ -32,6 +32,7 @@ function run() {
     api.use(function (req, res, next) {
         res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
         res.setHeader('Access-Control-Allow-Credentials', 'true');
+        res.setHeader('Cache-Control', 'no-store');
 
         next();
     });
@@ -149,7 +150,6 @@ function run() {
 
     api.get(getVersionUrl("/logout"), (req, res) => {
         req.session.destroy();
-        req.clearCookie("userSession")
 
         res.redirect(301, "http://localhost:3000");
         res.end();
