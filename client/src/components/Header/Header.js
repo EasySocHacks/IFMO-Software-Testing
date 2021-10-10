@@ -17,7 +17,7 @@ export default function Header() {
                     <div className="userName">
                         <span>{user.name}</span>
                     </div>
-                    <a className="logoutTabLink" href="/logout">
+                    <a className="logoutTabLink" href={process.env.REACT_APP_SERVER_URL + "/logout"}>
                         <div className="logoutTab">
                             Logout
                         </div>

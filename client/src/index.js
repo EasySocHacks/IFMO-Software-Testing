@@ -13,7 +13,6 @@ import Footer from "./components/Footer/Footer";
 import {config} from "dotenv";
 import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
 import AuthorizationPage from "./pages/AuthorizationPage/AuthorizationPage";
-import LogoutPage from "./pages/LogoutPage/LogoutPage";
 
 config()
 
@@ -37,9 +36,6 @@ ReactDOM.render(
                     </Route>
                     <Route path="/login">
                         <AuthorizationPage/>
-                    </Route>
-                    <Route path="/logout">
-                        <LogoutPage/>
                     </Route>
                     <Route path="/404">
                         <NotFound/>
