@@ -10,7 +10,6 @@ const port = 4000;
 const version = "0.1";
 const db = new sqlite.Database('./server_db')
 
-//TODO .env
 const SALT = "dnasjodhausudf2ur28fhwcuh23d23dd23dre234fref4r4tghthljdi32";
 
 run();

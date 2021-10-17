@@ -8,8 +8,6 @@ export default function FriendPage() {
     const [messages, setMessages] = useState([]);
     const queryParams = new URLSearchParams(window.location.search);
 
-    //TODO id
-    //TODO token requirement
     useEffect(async () => {
         if (queryParams.get("id")) {
             setFriend((await (await fetch(process.env.REACT_APP_SERVER_URL + "/friend?id=" + queryParams.get("id"), {
