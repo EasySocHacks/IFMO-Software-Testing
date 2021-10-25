@@ -1,4 +1,4 @@
-### This is a online chat messages based on IFMO-Software-testing course's homeworks.
+### This is a online chat messages based on IFMO-Software-Testing course's homeworks.
 
 ## Run project
 * Goto [sever](/server) and start nodeJs server using command ```npm start```
