@@ -41,18 +41,16 @@ function run() {
         if (req.session.userId) {
             dbQuery(`select * from Users where id != ${req.session.userId};`,
                 (rows) => {
-                    res.send({
-                        data: rows.map((row) => {
-                            return {
-                                id: row.id,
-                                name: row.name,
-                                age: row.age
-                            };
-                        })
-                    });
+                    res.send(rows.map((row) => {
+                        return {
+                            id: row.id,
+                            name: row.name,
+                            age: row.age
+                        };
+                    }));
                 }, () => {})
         } else {
-            res.send({data: []});
+            res.send([]);
         }
     });
 
@@ -64,24 +62,22 @@ function run() {
                 dbQuery(`select * from Users where id = ${req.query.id};`,
                     (rows) => {
                         if (!rows || rows.length === 0) {
-                            res.send({data: {}});
+                            res.send({});
                         } else {
                             res.send({
-                                data: {
-                                    id: rows[0].id,
-                                    name: rows[0].name,
-                                    age: rows[0].age
-                                }
+                                id: rows[0].id,
+                                name: rows[0].name,
+                                age: rows[0].age
                             });
                         }
                     })
             }
         } else {
-            res.send({data: {}});
+            res.send({});
         }
     });
 
-    api.get(getVersionUrl("/chatWith"), (req, res) => {
+    api.get(getVersionUrl("/chat"), (req, res) => {
         if (req.session.userId) {
             if (!req.query.id) {
                 res.status(404);
@@ -90,30 +86,28 @@ function run() {
                              (from_user_id = ${req.session.userId} and to_user_id = ${req.query.id}) or 
                              (from_user_id = ${req.query.id} and to_user_id = ${req.session.userId})`,
                     (rows) => {
-                        res.send({
-                            data: rows.map((row) => {
-                                return {
-                                    from: row.from_user_id,
-                                    to: row.to_user_id,
-                                    message: row.message
-                                };
-                            })
-                        });
+                        res.send(rows.map((row) => {
+                            return {
+                                from: row.from_user_id,
+                                to: row.to_user_id,
+                                message: row.message
+                            };
+                        }));
                     });
             }
         } else {
-            res.send({data: []});
+            res.send([]);
         }
     });
 
     //TODO verify
-    api.post(getVersionUrl("/register"), (req, res) => {
+    api.post(getVersionUrl("/users/register"), (req, res) => {
         const login = req.body.login;
         const password = saltPasswordSha(req.body.password);
         const age = req.body.age;
 
         dbQuery(`insert into Users(name, password, age) values ('${login}', '${password}', ${age});`,
-            (rows) => {
+            (_) => {
                 dbQuery(`select * from Users where name = '${login}';`,
                     (rows) => {
                         req.session.userId = rows[0].id;
@@ -123,14 +117,14 @@ function run() {
                     },
                     () => {})
             },
-            (err) => {
+            (_) => {
                 res.redirect(301, "http://localhost:3000/register");
                 res.end();
             });
     });
 
     //TODO verify
-    api.post(getVersionUrl("/login"), (req, res) => {
+    api.post(getVersionUrl("/users/login"), (req, res) => {
         const login = req.body.login;
         const password = saltPasswordSha(req.body.password);
 
@@ -141,13 +135,13 @@ function run() {
                 res.redirect(301, "http://localhost:3000");
                 res.end();
             },
-            (err) => {
+            (_) => {
                 res.redirect(301, "http://localhost:3000/login");
                 res.end();
             })
     });
 
-    api.get(getVersionUrl("/logout"), (req, res) => {
+    api.get(getVersionUrl("/users/logout"), (req, res) => {
         req.session.destroy();
 
         res.redirect(301, "http://localhost:3000");
@@ -158,11 +152,11 @@ function run() {
         if (req.session.userId) {
             dbQuery(`select * from Users where id=${req.session.userId};`,
                 (rows) => {
-                    res.send({data: {id: rows[0].id, name: rows[0].name, age: rows[0].age}});
+                    res.send({id: rows[0].id, name: rows[0].name, age: rows[0].age});
                 },
                 () => {})
         } else {
-            res.send({data: {}});
+            res.send({});
         }
     });
 
@@ -172,7 +166,7 @@ function run() {
             const receiverId = parseInt(req.body.receiver);
 
             dbQuery(`insert into Messages(from_user_id, to_user_id, message) values (${req.session.userId}, ${receiverId}, '${message}');`,
-                (rows) => {
+                (_) => {
                     res.redirect(301, "http://localhost:3000/friend?id=" + receiverId);
                     res.end();
                 }, (err) => {console.log(err)})
