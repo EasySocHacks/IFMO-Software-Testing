@@ -3,9 +3,9 @@ import Header from "../../../components/Header/Header";
 
 test("render header friends tab", () => {
     render(<Header/>);
-    const friends = document.getElementsByClassName("friendsTabLink")[0];
+    const friends = document.getElementsByClassName("headerTabLink")[0];
     expect(friends.href).toEqual("http://localhost/friends");
-    expect(friends.getElementsByClassName("friendsTab")[0].innerHTML).toEqual("Friends");
+    expect(friends.getElementsByClassName("headerTab")[0].innerHTML).toEqual("Friends");
 });
 
 test("render header register tab", () => {

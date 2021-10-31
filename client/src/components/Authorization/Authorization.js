@@ -1,7 +1,11 @@
+import './Authorization.css'
+
 export default function Authorization() {
     return (
         <div>
-            <form method="post"  name="login" autoComplete="off" action={process.env.REACT_APP_SERVER_URL + "/login"}>
+            <iframe name="dummyFrame" id="dummyFrame"/>
+
+            <form method="post" name="login" autoComplete="off" action="http://localhost:8080/users/login" target="dummyFrame">
                 <div>
                     <p>Login: </p>
                     <input type="text" name="login"/>

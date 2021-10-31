@@ -5,9 +5,9 @@ export default function Header() {
     const [user, setUser] = useState({});
 
     useEffect(async () => {
-        setUser((await (await fetch(process.env.REACT_APP_SERVER_URL + "/me", {
+        setUser(await (await fetch("http://localhost:8080/me", {
             credentials: "include"
-        })).json()).data);
+        })).json());
     }, []);
 
     if (user.id) {
@@ -17,15 +17,21 @@ export default function Header() {
                     <div className="userName">
                         <span>{user.name}</span>
                     </div>
-                    <a className="logoutTabLink" href={process.env.REACT_APP_SERVER_URL + "/logout"}>
+                    <a className="logoutTabLink" href="http://localhost:8080/users/logout" onClick="console.log('!')">
                         <div className="logoutTab">
                             Logout
                         </div>
                     </a>
                 </div>
-                <a className="friendsTabLink" href="/friends">
-                    <div className="friendsTab">
+                <a className="headerTabLink" href="/friends">
+                    <div className="headerTab">
                         Friends
+                    </div>
+                </a>
+
+                <a className="headerTabLink" href="/users">
+                    <div className="headerTab">
+                        Users
                     </div>
                 </a>
             </div>
@@ -45,8 +51,8 @@ export default function Header() {
                         </div>
                     </a>
                 </div>
-                <a className="friendsTabLink" href="/friends">
-                    <div className="friendsTab">
+                <a className="headerTabLink" href="/friends">
+                    <div className="headerTab">
                         Friends
                     </div>
                 </a>

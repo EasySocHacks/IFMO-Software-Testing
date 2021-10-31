@@ -1,7 +1,11 @@
+import './Registration.css'
+
 export default function Registration() {
     return (
         <div>
-            <form method="post"  name="register" autoComplete="off" action={process.env.REACT_APP_SERVER_URL + "/register"}>
+            <iframe name="dummyFrame" id="dummyFrame"/>
+
+            <form method="post"  name="register" autoComplete="off" action="http://localhost:8080/users/register" target="dummyFrame">
                 <div className="login-field">
                     <p>Login: </p>
                     <input type="text" name="login"/>

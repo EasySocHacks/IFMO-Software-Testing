@@ -10,12 +10,12 @@ export default function FriendPage() {
 
     useEffect(async () => {
         if (queryParams.get("id")) {
-            setFriend((await (await fetch(process.env.REACT_APP_SERVER_URL + "/friend?id=" + queryParams.get("id"), {
+            setFriend(await (await fetch("http://localhost:8080/friend?id=" + queryParams.get("id"), {
                 credentials: "include"
-            })).json()).data);
-            setMessages((await (await fetch(process.env.REACT_APP_SERVER_URL + "/chatWith?id=" + queryParams.get("id"), {
+            })).json());
+            setMessages(await (await fetch("http://localhost:8080/friend?id=/chat?id=" + queryParams.get("id"), {
                 credentials: "include"
-            })).json()).data)
+            })).json())
         }
     }, []);
 
