@@ -36,7 +36,7 @@ class UserService(
     }
 
     fun deregister(id: Long): User? {
-        val user = userRepository.findById(id).orElseGet { null }
+        val user = userRepository.findById(id).orElseGet { null } ?: return null
         userRepository.delete(user)
 
         return user
@@ -76,9 +76,5 @@ class UserService(
 
         userRepository.save(userFrom)
         userRepository.save(userTo)
-    }
-
-    fun isFriend(userFrom: User, userTo: User): Boolean {
-        return userFrom.friends.contains(userTo.id)
     }
 }
