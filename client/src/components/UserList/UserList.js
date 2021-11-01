@@ -17,8 +17,7 @@ export default function UserList(props: UserListInterface) {
                             <UserListElement
                                 id={userListElement.id}
                                 name={userListElement.name}
-                                age={userListElement.age}
-                                isFriend={userListElement.isFriend}/>
+                                age={userListElement.age}/>
                         </li>
                     );
                 })}

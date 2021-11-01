@@ -5,7 +5,7 @@ export default function UserListPage() {
     const [userList, setUserList] = useState([]);
 
     useEffect(async () => {
-        setUserList(await (await fetch( "http://localhost:8080/users", {
+        setUserList(await (await fetch( "http://localhost:8080/friends/nonFriendUsers", {
             credentials: "include"
         })).json());
     }, []);

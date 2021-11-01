@@ -1,11 +1,16 @@
 import './Registration.css'
 
+async function redirect() {
+    window.location = "/"
+}
+
 export default function Registration() {
     return (
         <div>
-            <iframe name="dummyFrame" id="dummyFrame"/>
+            <iframe title="RegisterFormIFrame" name="dummyFrame" id="dummyFrame"/>
 
-            <form method="post"  name="register" autoComplete="off" action="http://localhost:8080/users/register" target="dummyFrame">
+            <form method="post" name="register" autoComplete="off" action="http://localhost:8080/users/register"
+                  target="dummyFrame" onSubmit={redirect}>
                 <div className="login-field">
                     <p>Login: </p>
                     <input type="text" name="login"/>

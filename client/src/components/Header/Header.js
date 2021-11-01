@@ -1,6 +1,14 @@
 import "./Header.css"
 import {useEffect, useState} from "react";
 
+async function logout() {
+    await fetch("http://localhost:8080/users/logout", {
+        credentials: "include"
+    })
+
+    window.location = "/"
+}
+
 export default function Header() {
     const [user, setUser] = useState({});
 
@@ -17,11 +25,9 @@ export default function Header() {
                     <div className="userName">
                         <span>{user.name}</span>
                     </div>
-                    <a className="logoutTabLink" href="http://localhost:8080/users/logout">
-                        <div className="logoutTab">
-                            Logout
-                        </div>
-                    </a>
+                    <div className="logoutTab" onClick={logout}>
+                        Logout
+                    </div>
                 </div>
                 <a className="headerTabLink" href="/friends">
                     <div className="headerTab">

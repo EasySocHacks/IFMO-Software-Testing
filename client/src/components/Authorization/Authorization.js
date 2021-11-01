@@ -1,11 +1,16 @@
 import './Authorization.css'
 
+async function redirect() {
+    window.location = "/"
+}
+
 export default function Authorization() {
     return (
         <div>
-            <iframe name="dummyFrame" id="dummyFrame"/>
+            <iframe title="AuthorizationIFrame" name="dummyFrame" id="dummyFrame"/>
 
-            <form method="post" name="login" autoComplete="off" action="http://localhost:8080/users/login" target="dummyFrame">
+            <form method="post" name="login" autoComplete="off" action="http://localhost:8080/users/login"
+                  target="dummyFrame" onSubmit={redirect}>
                 <div>
                     <p>Login: </p>
                     <input type="text" name="login"/>
