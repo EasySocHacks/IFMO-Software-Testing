@@ -34,6 +34,6 @@ data class Message(
     @JsonGetter("from")
     fun fromUserId(): Long = fromUser.id
 
-    @JsonGetter
+    @JsonGetter("to")
     fun toUserId(): Long = toUser.id
 }

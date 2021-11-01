@@ -12,6 +12,7 @@ class MessageService(
 ) {
     fun getMessagesBetween(fromUser: User, toUser: User): List<Message> {
         return messageRepository.findAllByFromUserAndToUser(fromUser, toUser)
+            .plus(messageRepository.findAllByFromUserAndToUser(toUser, fromUser))
     }
 
     fun sendMessage(message: Message): Message? {

@@ -25,7 +25,7 @@ class UserController(
     }
 
     @GetMapping("/users/all", "/users/", "/users")
-    fun all(): List<User> {
+    fun users(): List<User> {
         return userService.findAll()
     }
 

@@ -44,7 +44,9 @@ class UserService(
 
     fun getFriends(id: Long): List<User>? {
         return try {
-            userRepository.findById(id).get().friends.toList()
+            userRepository.findById(id).get().friends.toList().mapNotNull {
+                userRepository.findById(it).orElseGet { null }
+            }
         } catch (e: NoSuchElementException) {
             null
         }
@@ -52,29 +54,31 @@ class UserService(
 
     fun getFriendById(id: Long, friendId: Long): User? {
         return try {
-            userRepository.findById(id).get().friends.find { it.id == friendId }
+            userRepository.findById(id).get().friends.mapNotNull {
+                userRepository.findById(it).orElseGet { null }
+            }.find { it.id == friendId }
         } catch (e: NoSuchElementException) {
             null
         }
     }
 
     fun addFriend(userFrom: User, userTo: User) {
-        userFrom.friends.add(userTo)
-        userTo.friends.add(userFrom)
+        userFrom.friends.add(userTo.id)
+        userTo.friends.add(userFrom.id)
 
         userRepository.save(userFrom)
         userRepository.save(userTo)
     }
 
     fun removeFriend(userFrom: User, userTo: User) {
-        userFrom.friends.remove(userTo)
-        userTo.friends.remove(userFrom)
+        userFrom.friends.remove(userTo.id)
+        userTo.friends.remove(userFrom.id)
 
         userRepository.save(userFrom)
         userRepository.save(userTo)
     }
 
     fun isFriend(userFrom: User, userTo: User): Boolean {
-        return userFrom.friends.contains(userTo)
+        return userFrom.friends.contains(userTo.id)
     }
 }
