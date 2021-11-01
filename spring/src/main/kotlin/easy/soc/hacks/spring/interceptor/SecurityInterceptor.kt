@@ -14,11 +14,14 @@ import javax.servlet.http.HttpServletResponse
 class SecurityInterceptor: HandlerInterceptor {
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
-        response.addHeader("Access-Control-Allow-Origin", "http://localhost:3000")
-        response.addHeader("Access-Control-Allow-Credentials", "true")
-        response.addHeader("Cache-Control", "no-store")
+        if (!response.containsHeader("Access-Control-Allow-Origin"))
+            response.addHeader("Access-Control-Allow-Origin", "http://localhost:3000")
+        if (!response.containsHeader("Access-Control-Allow-Credentials"))
+            response.addHeader("Access-Control-Allow-Credentials", "true")
+        if (!response.containsHeader("Cache-Control"))
+            response.addHeader("Cache-Control", "no-store")
 
-        if ((handler as HandlerMethod).hasMethodAnnotation(WithSession::class.java) &&
+        if (handler is HandlerMethod && handler.hasMethodAnnotation(WithSession::class.java) &&
             Session.getUser(request.session) == null) {
             response.status = HttpStatus.FORBIDDEN.value()
 

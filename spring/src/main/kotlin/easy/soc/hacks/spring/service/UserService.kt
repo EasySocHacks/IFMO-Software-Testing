@@ -61,11 +61,17 @@ class UserService(
     fun addFriend(userFrom: User, userTo: User) {
         userFrom.friends.add(userTo)
         userTo.friends.add(userFrom)
+
+        userRepository.save(userFrom)
+        userRepository.save(userTo)
     }
 
     fun removeFriend(userFrom: User, userTo: User) {
         userFrom.friends.remove(userTo)
         userTo.friends.remove(userFrom)
+
+        userRepository.save(userFrom)
+        userRepository.save(userTo)
     }
 
     fun isFriend(userFrom: User, userTo: User): Boolean {
