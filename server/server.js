@@ -7,7 +7,7 @@ global.crypto = require('crypto')
 
 const url = "localhost";
 const port = 4000;
-const version = "0.1";
+const version = "0.2";
 const db = new sqlite.Database('./server_db')
 
 const SALT = "dnasjodhausudf2ur28fhwcuh23d23dd23dre234fref4r4tghthljdi32";
@@ -36,101 +36,98 @@ function run() {
         next();
     });
 
-    //TODO add friend request
+    // N.B. For now friends is just all users
+    // See HW2 branch (spring) or more for this functionality
     api.get(getVersionUrl('/friends'), (req, res) => {
         if (req.session.userId) {
             dbQuery(`select * from Users where id != ${req.session.userId};`,
                 (rows) => {
-                    res.send({
-                        data: rows.map((row) => {
-                            return {
-                                id: row.id,
-                                name: row.name,
-                                age: row.age
-                            };
-                        })
-                    });
+                    res.send(rows.map((row) => {
+                        return {
+                            id: row.id,
+                            name: row.name,
+                            age: row.age
+                        };
+                    }));
                 }, () => {})
         } else {
-            res.send({data: []});
+            res.send([]);
         }
     });
 
     api.get(getVersionUrl('/friend'), (req, res) => {
         if (req.session.userId) {
             if (!req.query.id) {
-                res.status(404);
+                res.send({});
             } else {
                 dbQuery(`select * from Users where id = ${req.query.id};`,
                     (rows) => {
                         if (!rows || rows.length === 0) {
-                            res.send({data: {}});
+                            res.send({});
                         } else {
                             res.send({
-                                data: {
-                                    id: rows[0].id,
-                                    name: rows[0].name,
-                                    age: rows[0].age
-                                }
+                                id: rows[0].id,
+                                name: rows[0].name,
+                                age: rows[0].age
                             });
                         }
                     })
             }
         } else {
-            res.send({data: {}});
+            res.send({});
         }
     });
 
-    api.get(getVersionUrl("/chatWith"), (req, res) => {
+    api.get(getVersionUrl("/chat"), (req, res) => {
         if (req.session.userId) {
             if (!req.query.id) {
-                res.status(404);
+                res.send([]);
             } else {
                 dbQuery(`select * from Messages where 
                              (from_user_id = ${req.session.userId} and to_user_id = ${req.query.id}) or 
                              (from_user_id = ${req.query.id} and to_user_id = ${req.session.userId})`,
                     (rows) => {
-                        res.send({
-                            data: rows.map((row) => {
-                                return {
-                                    from: row.from_user_id,
-                                    to: row.to_user_id,
-                                    message: row.message
-                                };
-                            })
-                        });
+                        res.send(rows.map((row) => {
+                            return {
+                                from: row.from_user_id,
+                                to: row.to_user_id,
+                                message: row.message
+                            };
+                        }));
                     });
             }
         } else {
-            res.send({data: []});
+            res.send([]);
         }
     });
 
-    //TODO verify
-    api.post(getVersionUrl("/register"), (req, res) => {
+    // N.B. Users are not verified
+    // See HW2 branch (spring) or more for this functionality
+    api.post(getVersionUrl("/users/register"), (req, res) => {
         const login = req.body.login;
         const password = saltPasswordSha(req.body.password);
         const age = req.body.age;
 
         dbQuery(`insert into Users(name, password, age) values ('${login}', '${password}', ${age});`,
-            (rows) => {
+            (_) => {
                 dbQuery(`select * from Users where name = '${login}';`,
                     (rows) => {
                         req.session.userId = rows[0].id;
 
-                        res.redirect(301, "http://localhost:3000");
-                        res.end();
+                        res.status(200)
+                        res.end()
                     },
                     () => {})
             },
-            (err) => {
-                res.redirect(301, "http://localhost:3000/register");
-                res.end();
+            (_) => {
+                res.status(200)
+                res.end()
             });
     });
 
-    //TODO verify
-    api.post(getVersionUrl("/login"), (req, res) => {
+    // N.B. Users are not verified
+    // See HW2 branch (spring) or more for this functionality
+    api.post(getVersionUrl("/users/login"), (req, res) => {
         const login = req.body.login;
         const password = saltPasswordSha(req.body.password);
 
@@ -138,31 +135,31 @@ function run() {
             (rows) => {
                 req.session.userId = rows[0].id;
 
-                res.redirect(301, "http://localhost:3000");
-                res.end();
+                res.status(200)
+                res.end()
             },
-            (err) => {
-                res.redirect(301, "http://localhost:3000/login");
-                res.end();
+            (_) => {
+                res.status(200)
+                res.end()
             })
     });
 
-    api.get(getVersionUrl("/logout"), (req, res) => {
+    api.get(getVersionUrl("/users/logout"), (req, res) => {
         req.session.destroy();
 
-        res.redirect(301, "http://localhost:3000");
-        res.end();
+        res.status(200)
+        res.end()
     });
 
     api.get(getVersionUrl("/me"), (req, res) => {
         if (req.session.userId) {
             dbQuery(`select * from Users where id=${req.session.userId};`,
                 (rows) => {
-                    res.send({data: {id: rows[0].id, name: rows[0].name, age: rows[0].age}});
+                    res.send({id: rows[0].id, name: rows[0].name, age: rows[0].age});
                 },
                 () => {})
         } else {
-            res.send({data: {}});
+            res.send({});
         }
     });
 
@@ -172,13 +169,13 @@ function run() {
             const receiverId = parseInt(req.body.receiver);
 
             dbQuery(`insert into Messages(from_user_id, to_user_id, message) values (${req.session.userId}, ${receiverId}, '${message}');`,
-                (rows) => {
-                    res.redirect(301, "http://localhost:3000/friend?id=" + receiverId);
-                    res.end();
+                (_) => {
+                    res.status(200)
+                    res.end()
                 }, (err) => {console.log(err)})
         } else {
-            res.redirect(301, "http://localhost:3000/login");
-            res.end();
+            res.status(200)
+            res.end()
         }
     });
 
