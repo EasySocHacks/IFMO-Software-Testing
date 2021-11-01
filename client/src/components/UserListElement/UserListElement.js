@@ -8,6 +8,8 @@ export interface UserListElementInterface {
 }
 
 export default function UserListElement(props: UserListElementInterface) {
+    console.log(props.isFriend)
+
     if (props.isFriend) {
         return (
             <div className="userListElementDiv">

@@ -13,7 +13,7 @@ export default function FriendPage() {
             setFriend(await (await fetch("http://localhost:8080/friend?id=" + queryParams.get("id"), {
                 credentials: "include"
             })).json());
-            setMessages(await (await fetch("http://localhost:8080/friend?id=/chat?id=" + queryParams.get("id"), {
+            setMessages(await (await fetch("http://localhost:8080/chat?id=" + queryParams.get("id"), {
                 credentials: "include"
             })).json())
         }

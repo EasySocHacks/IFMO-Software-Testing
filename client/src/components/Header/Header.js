@@ -17,7 +17,7 @@ export default function Header() {
                     <div className="userName">
                         <span>{user.name}</span>
                     </div>
-                    <a className="logoutTabLink" href="http://localhost:8080/users/logout" onClick="console.log('!')">
+                    <a className="logoutTabLink" href="http://localhost:8080/users/logout">
                         <div className="logoutTab">
                             Logout
                         </div>
