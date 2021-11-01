@@ -13,6 +13,7 @@ import Footer from "./components/Footer/Footer";
 import {config} from "dotenv";
 import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
 import AuthorizationPage from "./pages/AuthorizationPage/AuthorizationPage";
+import UserListPage from "./pages/UserListPage/UserListPage";
 
 config()
 
@@ -27,6 +28,9 @@ ReactDOM.render(
                 <Switch>
                     <Route path="/friends">
                         <FriendListPage/>
+                    </Route>
+                    <Route path="/users">
+                        <UserListPage/>
                     </Route>
                     <Route path="/friend">
                         <FriendPage/>

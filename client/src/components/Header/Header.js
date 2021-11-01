@@ -28,7 +28,6 @@ export default function Header() {
                         Friends
                     </div>
                 </a>
-
                 <a className="headerTabLink" href="/users">
                     <div className="headerTab">
                         Users
@@ -54,6 +53,11 @@ export default function Header() {
                 <a className="headerTabLink" href="/friends">
                     <div className="headerTab">
                         Friends
+                    </div>
+                </a>
+                <a className="headerTabLink" href="/users">
+                    <div className="headerTab">
+                        Users
                     </div>
                 </a>
             </div>
