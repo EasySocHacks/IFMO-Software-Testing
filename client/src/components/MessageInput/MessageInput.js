@@ -9,7 +9,8 @@ export default function MessageInput(props: { receiverId: number }) {
         <div>
             <iframe title="MessageInputIFrame" name="dummyFrame" id="dummyFrame"/>
 
-            <form method="post" name="send-message" autoComplete="off" action="http://localhost:8080/sendMessage"
+            <form method="post" name="send-message" autoComplete="off"
+                  action={process.env.REACT_APP_SERVER_URL + "/sendMessage"}
                   target="dummyFrame" onSubmit={refresh}>
                 <div>
                     <input className="messageInput" type="text" name="message"/>

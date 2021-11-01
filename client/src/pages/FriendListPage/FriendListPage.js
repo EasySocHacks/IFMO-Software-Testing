@@ -6,7 +6,7 @@ export default function FriendListPage() {
     const [friendList, setFriendList] = useState([]);
 
     useEffect(async () => {
-        setFriendList(await (await fetch( "http://localhost:8080/friends", {
+        setFriendList(await (await fetch( process.env.REACT_APP_SERVER_URL + "/friends", {
             credentials: "include"
         })).json());
     }, []);

@@ -9,7 +9,8 @@ export default function Registration() {
         <div>
             <iframe title="RegisterFormIFrame" name="dummyFrame" id="dummyFrame"/>
 
-            <form method="post" name="register" autoComplete="off" action="http://localhost:8080/users/register"
+            <form method="post" name="register" autoComplete="off"
+                  action={process.env.REACT_APP_SERVER_URL + "/users/register"}
                   target="dummyFrame" onSubmit={redirect}>
                 <div className="login-field">
                     <p>Login: </p>

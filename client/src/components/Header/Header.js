@@ -2,7 +2,7 @@ import "./Header.css"
 import {useEffect, useState} from "react";
 
 async function logout() {
-    await fetch("http://localhost:8080/users/logout", {
+    await fetch(process.env.REACT_APP_SERVER_URL + "/users/logout", {
         credentials: "include"
     })
 
@@ -13,7 +13,7 @@ export default function Header() {
     const [user, setUser] = useState({});
 
     useEffect(async () => {
-        setUser(await (await fetch("http://localhost:8080/me", {
+        setUser(await (await fetch(process.env.REACT_APP_SERVER_URL + "/me", {
             credentials: "include"
         })).json());
     }, []);
