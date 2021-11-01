@@ -1,23 +1,44 @@
-import {render} from "@testing-library/react";
+import {render, screen, waitFor} from "@testing-library/react";
 import Header from "../../../components/Header/Header";
 
-test("render header friends tab", () => {
-    render(<Header/>);
-    const friends = document.getElementsByClassName("headerTabLink")[0];
-    expect(friends.href).toEqual("http://localhost/friends");
-    expect(friends.getElementsByClassName("headerTab")[0].innerHTML).toEqual("Friends");
-});
+describe("<Header/>", () => {
+    it('render header friends tab', () => {
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                json: () => Promise.resolve({}),
+            })
+        );
 
-test("render header register tab", () => {
-    render(<Header/>);
-    const register = document.getElementsByClassName("registrationTabLink")[0];
-    expect(register.href).toEqual("http://localhost/register");
-    expect(register.getElementsByClassName("registrationTab")[0].innerHTML).toEqual("Register");
-});
+        render(<Header/>);
+        const friends = screen.getByText("Friends")
+        expect(friends).toBeInTheDocument()
+    });
 
-test("render header login tab", () => {
-    render(<Header/>);
-    const login = document.getElementsByClassName("loginTabLink")[0];
-    expect(login.href).toEqual("http://localhost/login");
-    expect(login.getElementsByClassName("loginTab")[0].innerHTML).toEqual("Login");
-});
+    it("render header register and login tabs with no user present", () => {
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                json: () => Promise.resolve({}),
+            })
+        );
+
+        render(<Header/>);
+        expect(screen.getByText("Register")).toBeInTheDocument()
+        expect(screen.getByText("Login")).toBeInTheDocument()
+        expect(global.fetch).toBeCalledTimes(1)
+    });
+
+    it('render user name and logout tab on user present', async () => {
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                json: () => Promise.resolve({id: 1, name: "ABAcaba", age: 1}),
+            })
+        );
+
+        render(<Header/>);
+        await waitFor(() => screen.getByText("ABAcaba"))
+
+        expect(screen.getByText("ABAcaba")).toBeInTheDocument()
+        expect(screen.getByText("Logout")).toBeInTheDocument()
+        expect(global.fetch).toBeCalledTimes(1)
+    });
+})
