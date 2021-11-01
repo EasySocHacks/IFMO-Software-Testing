@@ -1,7 +1,16 @@
+import './Authorization.css'
+
+async function redirect() {
+    window.location = "/"
+}
+
 export default function Authorization() {
     return (
         <div>
-            <form method="post"  name="login" autoComplete="off" action={process.env.REACT_APP_SERVER_URL + "/login"}>
+            <iframe title="AuthorizationIFrame" name="dummyFrame" id="dummyFrame"/>
+
+            <form method="post" name="login" autoComplete="off" action={process.env.REACT_APP_SERVER_URL + "/users/login"}
+                  target="dummyFrame" onSubmit={redirect}>
                 <div>
                     <p>Login: </p>
                     <input type="text" name="login"/>

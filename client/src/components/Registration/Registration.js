@@ -1,7 +1,17 @@
+import './Registration.css'
+
+async function redirect() {
+    window.location = "/"
+}
+
 export default function Registration() {
     return (
         <div>
-            <form method="post"  name="register" autoComplete="off" action={process.env.REACT_APP_SERVER_URL + "/register"}>
+            <iframe title="RegisterFormIFrame" name="dummyFrame" id="dummyFrame"/>
+
+            <form method="post" name="register" autoComplete="off"
+                  action={process.env.REACT_APP_SERVER_URL + "/users/register"}
+                  target="dummyFrame" onSubmit={redirect}>
                 <div className="login-field">
                     <p>Login: </p>
                     <input type="text" name="login"/>

@@ -1,13 +1,21 @@
 import "./Header.css"
 import {useEffect, useState} from "react";
 
+async function logout() {
+    await fetch(process.env.REACT_APP_SERVER_URL + "/users/logout", {
+        credentials: "include"
+    })
+
+    window.location = "/"
+}
+
 export default function Header() {
     const [user, setUser] = useState({});
 
     useEffect(async () => {
-        setUser((await (await fetch(process.env.REACT_APP_SERVER_URL + "/me", {
+        setUser(await (await fetch(process.env.REACT_APP_SERVER_URL + "/me", {
             credentials: "include"
-        })).json()).data);
+        })).json());
     }, []);
 
     if (user.id) {
@@ -17,14 +25,12 @@ export default function Header() {
                     <div className="userName">
                         <span>{user.name}</span>
                     </div>
-                    <a className="logoutTabLink" href={process.env.REACT_APP_SERVER_URL + "/logout"}>
-                        <div className="logoutTab">
-                            Logout
-                        </div>
-                    </a>
+                    <div className="logoutTab" onClick={logout}>
+                        Logout
+                    </div>
                 </div>
-                <a className="friendsTabLink" href="/friends">
-                    <div className="friendsTab">
+                <a className="headerTabLink" href="/friends">
+                    <div className="headerTab">
                         Friends
                     </div>
                 </a>
@@ -45,8 +51,8 @@ export default function Header() {
                         </div>
                     </a>
                 </div>
-                <a className="friendsTabLink" href="/friends">
-                    <div className="friendsTab">
+                <a className="headerTabLink" href="/friends">
+                    <div className="headerTab">
                         Friends
                     </div>
                 </a>

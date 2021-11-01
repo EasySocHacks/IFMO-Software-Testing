@@ -1,9 +1,17 @@
 import "./MessageInput.css"
 
-export default function MessageInput(props: {receiverId: number}) {
+function refresh() {
+    window.location.reload()
+}
+
+export default function MessageInput(props: { receiverId: number }) {
     return (
         <div>
-            <form method="post" name="send-message" autoComplete="off" action={process.env.REACT_APP_SERVER_URL + "/sendMessage"}>
+            <iframe title="MessageInputIFrame" name="dummyFrame" id="dummyFrame"/>
+
+            <form method="post" name="send-message" autoComplete="off"
+                  action={process.env.REACT_APP_SERVER_URL + "/sendMessage"}
+                  target="dummyFrame" onSubmit={refresh}>
                 <div>
                     <input className="messageInput" type="text" name="message"/>
                     <input className="sendMessage" type="submit" value="Send"/>
