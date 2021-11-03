@@ -1,11 +1,11 @@
 package easy.soc.hacks.spring.service
 
-import com.nhaarman.mockitokotlin2.*
 import easy.soc.hacks.spring.domain.User
 import easy.soc.hacks.spring.repository.UserRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.*
 import java.util.*
 import javax.servlet.http.HttpSession
 
