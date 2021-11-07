@@ -12,7 +12,7 @@ Now you can use project by connecting to the following url:
 Project contains tests for:
 * [client](/client)
   * unit tests runs with command ```npm test src/test/unit/``` (must runs from [client](/client) directory)
-  * e2e tests runs with command ```npm test src/test/e2e/``` (must runs from [server](/server) directory)
+  * e2e tests runs with command ```npm test src/test/e2e/``` (must runs from [client](/client) directory)
 
 ## Additional info
 To see availability of project, there are some already created Users with some test data.
