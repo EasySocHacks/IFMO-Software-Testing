@@ -11,7 +11,7 @@ import java.util.*
 
 @Data
 @Document(collection = "users")
-data class User (
+data class User(
     @Id
     @JsonProperty("id")
     var id: Long,

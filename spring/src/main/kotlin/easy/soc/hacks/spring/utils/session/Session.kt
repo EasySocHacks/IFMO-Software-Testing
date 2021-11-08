@@ -4,7 +4,7 @@ import easy.soc.hacks.spring.domain.User
 import javax.servlet.http.HttpSession
 
 object Session {
-    private const val userIdSessionKey = "userId"
+    const val userIdSessionKey = "userId"
 
     fun setUser(httpSession: HttpSession, user: User) {
         httpSession.setAttribute(userIdSessionKey, user.id)

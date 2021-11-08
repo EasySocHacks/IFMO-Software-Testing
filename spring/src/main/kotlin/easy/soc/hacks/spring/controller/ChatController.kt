@@ -8,9 +8,9 @@ import easy.soc.hacks.spring.service.SequenceGeneratorService
 import easy.soc.hacks.spring.service.UserService
 import easy.soc.hacks.spring.utils.session.Session
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.OK
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpSession
 
@@ -22,18 +22,18 @@ class ChatController(
 ) {
     @WithSession
     @GetMapping("/chat")
-    fun chat(@RequestParam id: Long, httpSession: HttpSession): List<Message>? {
-        val fromUser = userService.findById(Session.getUser(httpSession)!!) ?: return null
-        val toUser = userService.findById(id) ?: return null
+    fun chat(@RequestParam id: Long, httpSession: HttpSession): ResponseEntity<Any> {
+        val fromUser = userService.findById(Session.getUser(httpSession)!!) ?: return ResponseEntity(emptyList<Message>(),  NOT_FOUND)
+        val toUser = userService.findById(id) ?: return ResponseEntity(emptyList<Message>(),  NOT_FOUND)
 
-        return messageService.getMessagesBetween(fromUser, toUser)
+        return ResponseEntity(messageService.getMessagesBetween(fromUser, toUser), OK)
     }
 
     @WithSession
     @PostMapping("/sendMessage")
-    fun sendMessage(@ModelAttribute("send-message") sendMessageForm: SendMessageForm, httpSession: HttpSession): HttpStatus {
-        val fromUser = userService.findById(Session.getUser(httpSession)!!) ?: return NOT_FOUND
-        val toUser = userService.findById(sendMessageForm.receiver) ?: return NOT_FOUND
+    fun sendMessage(@ModelAttribute("send-message") sendMessageForm: SendMessageForm, httpSession: HttpSession): ResponseEntity<Unit> {
+        val fromUser = userService.findById(Session.getUser(httpSession)!!) ?: return ResponseEntity(NOT_FOUND)
+        val toUser = userService.findById(sendMessageForm.receiver) ?: return ResponseEntity(NOT_FOUND)
 
         val message = Message(
             sequenceGeneratorService.generateSequence(Message.SEQUENCE_NAME),
@@ -44,6 +44,6 @@ class ChatController(
 
         messageService.sendMessage(message)
 
-        return OK
+        return ResponseEntity(OK)
     }
 }

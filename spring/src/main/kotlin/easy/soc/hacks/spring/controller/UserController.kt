@@ -9,7 +9,6 @@ import easy.soc.hacks.spring.service.UserService
 import easy.soc.hacks.spring.utils.session.EmptyJson
 import easy.soc.hacks.spring.utils.session.Session
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.*
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -28,44 +27,44 @@ class UserController(
         return ResponseEntity(user, OK)
     }
 
-    @GetMapping("/users/all", "/users/", "/users")
+    @GetMapping("/users/all", "/users")
     fun users(): List<User> {
         return userService.findAll()
     }
 
     @PostMapping("/users/register")
-    fun register(@ModelAttribute("register") registerUserForm: RegisterUserForm, httpSession: HttpSession): HttpStatus {
+    fun register(@ModelAttribute("register") registerUserForm: RegisterUserForm, httpSession: HttpSession): ResponseEntity<Unit> {
         val user = User(
             sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME),
             registerUserForm.login,
             registerUserForm.age,
             registerUserForm.password
         )
-        userService.register(user) ?: return NOT_ACCEPTABLE
+        userService.register(user) ?: return ResponseEntity(NOT_ACCEPTABLE)
         Session.setUser(httpSession, user)
 
-        return OK
+        return ResponseEntity(OK)
     }
 
     @PostMapping("/users/login")
-    fun login(@ModelAttribute("login") loginUserForm: LoginUserForm, httpSession: HttpSession): HttpStatus {
-        userService.login(loginUserForm.login, loginUserForm.password, httpSession) ?: NOT_FOUND
+    fun login(@ModelAttribute("login") loginUserForm: LoginUserForm, httpSession: HttpSession): ResponseEntity<Unit> {
+        userService.login(loginUserForm.login, loginUserForm.password, httpSession) ?: return ResponseEntity(NOT_FOUND)
 
-        return OK
+        return ResponseEntity(OK)
     }
 
     @WithSession
     @GetMapping("/users/logout")
-    fun logout(httpSession: HttpSession): HttpStatus {
+    fun logout(httpSession: HttpSession): ResponseEntity<Unit> {
         Session.unsetUser(httpSession)
 
-        return OK
+        return ResponseEntity(OK)
     }
 
     @PostMapping("/users/delete/{id}")
-    fun delete(@PathVariable id: Long): HttpStatus {
-        userService.deregister(id) ?: return NOT_FOUND
+    fun delete(@PathVariable id: Long): ResponseEntity<Unit> {
+        userService.deregister(id) ?: return ResponseEntity(NOT_FOUND)
 
-        return OK
+        return ResponseEntity(OK)
     }
 }
