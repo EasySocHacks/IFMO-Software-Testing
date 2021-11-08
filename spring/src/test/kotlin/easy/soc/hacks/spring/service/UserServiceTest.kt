@@ -2,6 +2,7 @@ package easy.soc.hacks.spring.service
 
 import easy.soc.hacks.spring.domain.User
 import easy.soc.hacks.spring.repository.UserRepository
+import easy.soc.hacks.spring.utils.session.Session
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
@@ -84,7 +85,7 @@ internal class UserServiceTest {
         assertThat(userService.login(user.name, user.password, httpSession)).isEqualTo(user)
 
         verify(userRepository).findByNameAndPassword(user.name, user.password)
-        verify(httpSession).setAttribute("userId", 1L)
+        verify(httpSession).setAttribute(Session.userIdSessionKey, 1L)
         verifyNoMoreInteractions(httpSession)
     }
 
