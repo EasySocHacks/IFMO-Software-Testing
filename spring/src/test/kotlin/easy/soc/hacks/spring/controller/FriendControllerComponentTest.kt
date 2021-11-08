@@ -80,7 +80,6 @@ internal class FriendControllerComponentTest {
             sessionAttr(Session.userIdSessionKey, 1L)
         }.andExpect {
             status { isOk() }
-            content { json("{}") }
         }
 
         verify(userService).findById(1L)
@@ -204,7 +203,6 @@ internal class FriendControllerComponentTest {
             param("id", "2")
         }.andExpect {
             status { isOk() }
-            content { json("{}") }
         }
 
         verify(userService).getFriendById(1L, 2L)

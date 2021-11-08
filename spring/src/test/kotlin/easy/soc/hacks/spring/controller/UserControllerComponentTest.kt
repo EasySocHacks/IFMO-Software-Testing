@@ -36,7 +36,6 @@ internal class UserControllerComponentTest {
         mockMvc.get("/me")
             .andExpect {
                 status { isOk() }
-                content { json("{}") }
             }
     }
 
@@ -50,7 +49,6 @@ internal class UserControllerComponentTest {
             }
         }.andExpect {
             status { isOk() }
-            content { json("{}") }
         }
 
         verify(userService).findById(1L)

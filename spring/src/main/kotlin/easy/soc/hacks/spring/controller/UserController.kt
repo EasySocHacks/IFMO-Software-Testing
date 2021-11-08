@@ -6,7 +6,6 @@ import easy.soc.hacks.spring.form.LoginUserForm
 import easy.soc.hacks.spring.form.RegisterUserForm
 import easy.soc.hacks.spring.service.SequenceGeneratorService
 import easy.soc.hacks.spring.service.UserService
-import easy.soc.hacks.spring.utils.session.EmptyJson
 import easy.soc.hacks.spring.utils.session.Session
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus.*
@@ -21,8 +20,8 @@ class UserController(
 ) {
     @GetMapping("/me")
     fun me(httpSession: HttpSession): ResponseEntity<Any> {
-        val userId = Session.getUser(httpSession) ?: return ResponseEntity(EmptyJson, OK)
-        val user = userService.findById(userId) ?: return ResponseEntity(EmptyJson, OK)
+        val userId = Session.getUser(httpSession) ?: return ResponseEntity(OK)
+        val user = userService.findById(userId) ?: return ResponseEntity(OK)
 
         return ResponseEntity(user, OK)
     }
