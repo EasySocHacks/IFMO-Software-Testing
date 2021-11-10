@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  mongo:
+    image: mongo:4
+    ports:
+      - "27017:27017"
+    network_mode: "host"
+  api:
+    build: api/
+    image: easy.soc.hacks.testing.api:latest
+    depends_on:
+      - mongo
+    network_mode: "host"
+  client:
+    build: client/
+    image: easy.soc.hacks.testing.client:latest
+    depends_on:
+      - api
+    network_mode: "host"
