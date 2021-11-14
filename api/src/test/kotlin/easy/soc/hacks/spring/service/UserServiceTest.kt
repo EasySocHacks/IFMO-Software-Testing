@@ -53,26 +53,6 @@ internal class UserServiceTest {
     }
 
     @Test
-    fun `register returns same User`() {
-        val user = User(1, "1", 1, "1")
-        whenever(userRepository.save(any())).thenReturn(user)
-
-        assertThat(userService.register(user)).isEqualTo(user)
-
-        verify(userRepository).save(user)
-    }
-
-    @Test
-    fun `register returns null on repository fail`() {
-        val user = User(1, "1", 1, "1")
-        whenever(userRepository.save(any())).thenThrow(IllegalArgumentException::class.java)
-
-        assertThat(userService.register(user)).isEqualTo(null)
-
-        verify(userRepository).save(user)
-    }
-
-    @Test
     fun `login returns same User and set session attribute`() {
         val sessionAttributeStringBuilder = StringBuilder()
         val user = User(1, "1", 1, "1")
