@@ -29,3 +29,7 @@ Project contains tests for:
 * [client](/client)
   * **unit** tests runs by executing command ```npm test src/test/unit/``` (must runs from [client](/client) directory)
   * **e2e** tests runs by executing command ```npm test src/test/e2e/``` (must runs from [client](/client) directory)
+* [api](/api)
+  * **unit** tests runs by executing command ```mvn -Dtest=MessageServiceTest,UserServiceTest test``` (must runs from [api](/api) directory)
+  * **component** tests runs by executing command ```mvn -Dtest=ChatControllerComponentTest,FriendControllerComponentTest,UserControllerComponentTest test``` (must runs from [api](/api) directory)
+  * **integration** tests runs by executing command ```mvn -Dtest=AuthIntegrationTest,MessagingIntegrationTest test``` (must runs from [api](/api) directory)
