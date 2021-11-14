@@ -1,6 +1,7 @@
 package easy.soc.hacks.spring.controller
 
 import easy.soc.hacks.spring.annotation.WithSession
+import easy.soc.hacks.spring.domain.User
 import easy.soc.hacks.spring.service.UserService
 import easy.soc.hacks.spring.utils.session.Session
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,7 +17,7 @@ class FriendController(
 ) {
     @WithSession
     @GetMapping("/friends")
-    fun friends(httpSession: HttpSession): ResponseEntity<Any> {
+    fun friends(httpSession: HttpSession): ResponseEntity<List<User>> {
         val friends = userService.getFriends(Session.getUser(httpSession)!!) ?: return ResponseEntity(OK)
 
         return ResponseEntity(friends, OK)
@@ -24,7 +25,7 @@ class FriendController(
 
     @WithSession
     @GetMapping("/friends/nonFriendUsers")
-    fun nonFriendUsers(httpSession: HttpSession): ResponseEntity<Any> {
+    fun nonFriendUsers(httpSession: HttpSession): ResponseEntity<List<User>> {
         val user = userService.findById(Session.getUser(httpSession)!!) ?: return ResponseEntity(OK)
 
         return ResponseEntity(userService.findAll().minus(user.friends.mapNotNull {
@@ -62,7 +63,7 @@ class FriendController(
 
     @WithSession
     @GetMapping("/friend")
-    fun friend(@RequestParam id: Long, httpSession: HttpSession): ResponseEntity<Any> {
+    fun friend(@RequestParam id: Long, httpSession: HttpSession): ResponseEntity<User> {
         val friend =
             userService.getFriendById(Session.getUser(httpSession)!!, id) ?: return ResponseEntity(OK)
 

@@ -19,7 +19,7 @@ class UserController(
     @Autowired private val sequenceGeneratorService: SequenceGeneratorService
 ) {
     @GetMapping("/me")
-    fun me(httpSession: HttpSession): ResponseEntity<Any> {
+    fun me(httpSession: HttpSession): ResponseEntity<User> {
         val userId = Session.getUser(httpSession) ?: return ResponseEntity(OK)
         val user = userService.findById(userId) ?: return ResponseEntity(OK)
 

@@ -22,9 +22,9 @@ class ChatController(
 ) {
     @WithSession
     @GetMapping("/chat")
-    fun chat(@RequestParam id: Long, httpSession: HttpSession): ResponseEntity<Any> {
-        val fromUser = userService.findById(Session.getUser(httpSession)!!) ?: return ResponseEntity(emptyList<Message>(),  NOT_FOUND)
-        val toUser = userService.findById(id) ?: return ResponseEntity(emptyList<Message>(),  NOT_FOUND)
+    fun chat(@RequestParam id: Long, httpSession: HttpSession): ResponseEntity<List<Message>> {
+        val fromUser = userService.findById(Session.getUser(httpSession)!!) ?: return ResponseEntity(emptyList(),  NOT_FOUND)
+        val toUser = userService.findById(id) ?: return ResponseEntity(emptyList(),  NOT_FOUND)
 
         return ResponseEntity(messageService.getMessagesBetween(fromUser, toUser), OK)
     }
