@@ -20,6 +20,6 @@ In this repository you can find
   * Registration and authorization is present
   * Unit tests
   * Component tests
-  * **In progress...**
+  * Integration tests (auth tests as well)
 
 Each of represented branches contains their own README.md description of how-to-run and some additional info 
