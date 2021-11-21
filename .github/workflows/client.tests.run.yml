@@ -11,12 +11,14 @@ on:
 
 jobs:
   build:
-
+    defaults:
+      run:
+        working-directory: ./client
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [12.x, 14.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -26,9 +28,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: ./client/package-lock.json
     - run: npm ci
-      working-directory: ./frontend
-    - run: npm run build --if-present
-      working-directory: ./frontend
-    - run: npm test
-      working-directory: ./frontend
+    - run: npm build
+    - run: npm test src/test/unit/
