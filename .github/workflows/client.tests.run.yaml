@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ HW1, HW2, HW3 ]
+    branches: [ HW3 ]
   pull_request:
-    branches: [ HW1, HW2, HW3 ]
+    branches: [ HW3 ]
 
 jobs:
   build:
