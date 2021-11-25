@@ -1,0 +1,45 @@
+name: Client e2e tests
+
+on:
+  push:
+    branches: [ HW3 ]
+  pull_request:
+    branches: [ HW3 ]
+
+jobs:
+  docker:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build containers
+        run: docker-compose build
+
+      - name: Up containers
+        run: docker-compose up
+
+      - name: Install node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: ./client/package-lock.json
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./client
+
+      - name: Run tests
+        run: npm run test
+        working-directory: ./client
+
+      - name: Stop containers
+        if: always()
+        run: docker-compose down
