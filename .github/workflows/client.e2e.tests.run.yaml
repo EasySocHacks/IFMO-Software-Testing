@@ -32,12 +32,16 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ./client/package-lock.json
 
-      - name: Install dependencies
-        run: npm install
+      - name: Cliet npm ci
+        run: npm ci
+        working-directory: ./client
+
+      - name: Cliet npm build
+        run: npm build
         working-directory: ./client
 
       - name: Run tests
-        run: npm run test
+        run: npm run test src/test/unit/
         working-directory: ./client
 
       - name: Stop containers
