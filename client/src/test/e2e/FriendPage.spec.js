@@ -26,9 +26,16 @@ describe("FriendsPage tests", () => {
 
     it("Header FriendsPage tab refers to /friends page", async () => {
         await page.goto("http://localhost:3000/");
-        await page.locator(".headerTabLink").evaluate(e => e.click())
+        await page.locator(".headerTabLink [text=Friends]").evaluate(e => e.click())
 
         await expect(page.url()).toEqual("http://localhost:3000/friends")
+    })
+
+    it("Header FriendsPage tab refers to /users page", async () => {
+        await page.goto("http://localhost:3000/");
+        await page.locator(".headerTabLink [text=Users]").evaluate(e => e.click())
+
+        await expect(page.url()).toEqual("http://localhost:3000/users")
     })
 
     it("Footer FriendsPage tab refers to github page", async () => {
