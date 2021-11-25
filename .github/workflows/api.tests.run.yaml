@@ -1,10 +1,6 @@
 name: API tests
 
-on:
-  push:
-    branches: [ HW3 ]
-  pull_request:
-    branches: [ HW3 ]
+on: [ push, pull_request ]
 
 jobs:
   build:
