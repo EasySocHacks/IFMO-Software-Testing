@@ -22,8 +22,31 @@ afterEach(async () => {
     await firefoxPage.close();
 });
 
+
+// Run this tests only using in-memory db
 describe("RegisterAndLoginPage tests", () => {
-    it("LoginPage allows you to login", async () => {
+    test.skip("RegisterPage allow you to register", async () => {
+        await chromePage.goto("http://localhost:3000/");
+        await chromePage.locator(".registrationTab").evaluate(e => e.click())
+        await chromePage.locator("input[name=login]").fill("First")
+        await chromePage.locator("input[name=age]").fill("1")
+        await chromePage.locator("input[name=password]").fill("1")
+        await chromePage.click("input[type=submit]")
+
+        await chromePage.goto("http://localhost:3000/");
+        await chromePage.locator(".registrationTab").evaluate(e => e.click())
+        await chromePage.locator("input[name=login]").fill("Second")
+        await chromePage.locator("input[name=age]").fill("2")
+        await chromePage.locator("input[name=password]").fill("2")
+        await chromePage.click("input[type=submit]")
+
+        await chromePage.waitForSelector(".userName")
+
+        await expect(chromePage.url()).toEqual("http://localhost:3000/");
+        await expect(await chromePage.locator(".userName").innerText()).toEqual("Second")
+    });
+
+    test.skip("LoginPage allows you to login", async () => {
         await chromePage.goto("http://localhost:3000/");
         await chromePage.locator(".loginTabLink").evaluate(e => e.click())
         await chromePage.locator("input[name=login]").fill("First")
@@ -36,7 +59,28 @@ describe("RegisterAndLoginPage tests", () => {
         await expect(await chromePage.locator(".userName").innerText()).toEqual("First")
     });
 
-    it("LoginPage allows see friend list", async () => {
+    test.skip("UsersPage allows you to add a friend", async () => {
+        await chromePage.goto("http://localhost:3000/");
+        await chromePage.locator(".loginTabLink").evaluate(e => e.click())
+        await chromePage.locator("input[name=login]").fill("First")
+        await chromePage.locator("input[name=password]").fill("1")
+        await chromePage.click("input[type=submit]")
+
+        await chromePage.waitForSelector(".userName")
+
+        await expect(chromePage.url()).toEqual("http://localhost:3000/users");
+        await expect(await chromePage.locator(".userName").innerText()).toEqual("First")
+
+        await chromePage.locator("text=Add to friends").click()
+
+        await chromePage.goto("http://localhost:3000/friends");
+        await expect(chromePage.url()).toEqual("http://localhost:3000/");
+
+        const friends = await chromePage.locator("ul[class=friendList]").allInnerTexts()
+        await expect(friends.join(" ")).toContain("Second")
+    });
+
+    test.skip("FriendsPage allows see friend list", async () => {
         await chromePage.goto("http://localhost:3000/");
         await chromePage.locator(".loginTabLink").evaluate(e => e.click())
         await chromePage.locator("input[name=login]").fill("First")
@@ -51,7 +95,7 @@ describe("RegisterAndLoginPage tests", () => {
         await expect(friends.join(" ")).toContain("Second")
     });
 
-    it("LoginPage allows see chat list", async () => {
+    test.skip("LoginPage allows see chat list", async () => {
         await chromePage.goto("http://localhost:3000/");
         await chromePage.locator(".loginTabLink").evaluate(e => e.click())
         await chromePage.locator("input[name=login]").fill("First")
@@ -71,7 +115,7 @@ describe("RegisterAndLoginPage tests", () => {
         )
     });
 
-    it("LoginPage allows chat between", async () => {
+    test.skip("LoginPage allows chat between", async () => {
         await chromePage.goto("http://localhost:3000/");
         await chromePage.locator(".loginTabLink").evaluate(e => e.click())
         await chromePage.locator("input[name=login]").fill("First")
