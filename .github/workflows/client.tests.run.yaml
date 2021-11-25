@@ -1,4 +1,4 @@
-name: Client e2e tests
+name: Client tests
 
 on: [ push, pull_request ]
 
