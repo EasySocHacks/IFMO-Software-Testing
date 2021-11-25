@@ -41,7 +41,7 @@ jobs:
         working-directory: ./client
 
       - name: Run tests
-        run: npm run test src/test/unit/
+        run: npm run test src/test/e2e/
         working-directory: ./client
 
       - name: Stop containers
