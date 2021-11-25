@@ -5,7 +5,7 @@ services:
     image: mongo:4
     ports:
       - "27017:27017"
-    network_mode: "host"
+    network_mode: "bridge"
   api:
     build: api/
     image: easy.soc.hacks.testing.api:latest
