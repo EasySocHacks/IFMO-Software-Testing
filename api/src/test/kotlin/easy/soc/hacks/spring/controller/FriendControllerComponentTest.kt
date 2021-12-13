@@ -4,6 +4,11 @@ import easy.soc.hacks.spring.TestHelper
 import easy.soc.hacks.spring.domain.User
 import easy.soc.hacks.spring.service.UserService
 import easy.soc.hacks.spring.utils.session.Session
+import io.qameta.allure.Description
+import io.qameta.allure.Epic
+import io.qameta.allure.Feature
+import io.qameta.allure.Story
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
@@ -15,6 +20,8 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 
+@Epic("Component test")
+@Feature("Friend")
 @WebMvcTest(FriendController::class)
 internal class FriendControllerComponentTest {
     @MockBean
@@ -23,6 +30,9 @@ internal class FriendControllerComponentTest {
     @Autowired
     private lateinit var mockMvc: MockMvc
 
+    @Story("Get friend list")
+    @DisplayName("Friends mapping returns 'FORBIDDEN' on no session set")
+    @Description("Friend list request returns 'FORBIDDEN' due to not login/register user")
     @Test
     fun `friends mapping returns FORBIDDEN on no session set`() {
         mockMvc.get("/friends")
@@ -31,6 +41,8 @@ internal class FriendControllerComponentTest {
             }
     }
 
+    @Story("Get friend list")
+    @DisplayName("Friends mapping returns empty json on empty friend list")
     @Test
     fun `friends mapping returns empty json on empty friend list`() {
         given(userService.getFriends(any())).willReturn(emptyList())
@@ -45,6 +57,8 @@ internal class FriendControllerComponentTest {
         verify(userService).getFriends(1L)
     }
 
+    @Story("Get friend list")
+    @DisplayName("Friends mapping returns non-empty connect json on non-empty friend list")
     @Test
     fun `friends mapping returns non-empty connect json on non-empty friend list`() {
         val userList = listOf(
@@ -64,6 +78,9 @@ internal class FriendControllerComponentTest {
         verify(userService).getFriends(1L)
     }
 
+    @Story("Get non friend list")
+    @DisplayName("NonFriendUsers mapping returns 'FORBIDDEN' on no session set")
+    @Description("Non friends list request returns 'FORBIDDEN' due to not login/register user")
     @Test
     fun `nonFriendUsers mapping returns FORBIDDEN on no session set`() {
         mockMvc.get("/friends/nonFriendUsers")
@@ -72,6 +89,8 @@ internal class FriendControllerComponentTest {
             }
     }
 
+    @Story("Get non friend list")
+    @DisplayName("NonFriendUsers mapping returns empty json on no current user set")
     @Test
     fun `nonFriendUsers mapping returns empty json on no current user set`() {
         given(userService.findById(any())).willReturn(null)
@@ -85,6 +104,8 @@ internal class FriendControllerComponentTest {
         verify(userService).findById(1L)
     }
 
+    @Story("Get non friend list")
+    @DisplayName("NonFriendUsers mapping returns non-empty connect json on non-empty friend list")
     @Test
     fun `nonFriendUsers mapping returns non-empty connect json on non-empty friend list`() {
         val friendList = listOf(
@@ -108,6 +129,9 @@ internal class FriendControllerComponentTest {
         verify(userService).findAll()
     }
 
+    @Story("Add friend")
+    @DisplayName("Friends add mapping returns 'FORBIDDEN' on no session set")
+    @Description("Friends add request returns 'FORBIDDEN' due to not login/register user")
     @Test
     fun `friends add mapping returns FORBIDDEN on no session set`() {
         mockMvc.post("/friends/add/1")
@@ -116,6 +140,9 @@ internal class FriendControllerComponentTest {
             }
     }
 
+    @Story("Add friend")
+    @DisplayName("Friends add mapping returns 'NOT_FOUND' on no current user")
+    @Description("Friends add request returns 'NOT_FOUND' due to not matching user found in database")
     @Test
     fun `friends add mapping returns NOT_FOUND on no current user`() {
         given(userService.findById(any())).willReturn(null)
@@ -129,6 +156,9 @@ internal class FriendControllerComponentTest {
         verify(userService).findById(1L)
     }
 
+    @Story("Add friend")
+    @DisplayName("Friends add mapping returns OK")
+    @Description("Friends add request verify adding specific user to friends. And returns 'OK'")
     @Test
     fun `friends add mapping returns OK`() {
         val fromUser = User(1, "1", 1, "1")
@@ -147,6 +177,9 @@ internal class FriendControllerComponentTest {
         verify(userService).addFriend(fromUser, toUser)
     }
 
+    @Story("Remove friend")
+    @DisplayName("Friends remove mapping returns 'FORBIDDEN' on no session set")
+    @Description("Friends remove request returns 'FORBIDDEN' due to not login/register user")
     @Test
     fun `friends remove mapping returns FORBIDDEN on no session set`() {
         mockMvc.post("/friends/remove/1")
@@ -155,6 +188,9 @@ internal class FriendControllerComponentTest {
             }
     }
 
+    @Story("Remove friend")
+    @DisplayName("Friends remove mapping returns 'NOT_FOUND' on no session set")
+    @Description("Friends remove request returns 'FORBIDDEN' due to no matching user found in database")
     @Test
     fun `friends remove mapping returns NOT_FOUND on no current user`() {
         given(userService.findById(any())).willReturn(null)
@@ -168,6 +204,9 @@ internal class FriendControllerComponentTest {
         verify(userService).findById(1L)
     }
 
+    @Story("Remove friend")
+    @DisplayName("Friends remove mapping returns 'OK'")
+    @Description("Friends remove request verify removing specific user from friends. And returns 'OK'")
     @Test
     fun `friends remove mapping returns OK`() {
         val fromUser = User(1, "1", 1, "1")
@@ -186,6 +225,9 @@ internal class FriendControllerComponentTest {
         verify(userService).removeFriend(fromUser, toUser)
     }
 
+    @Story("Get friend")
+    @DisplayName("Friend mapping returns 'FORBIDDEN' on no session set")
+    @Description("Friend request returns 'FORBIDDEN' due to not login/register user")
     @Test
     fun `friend mapping returns FORBIDDEN on no session set`() {
         mockMvc.get("/friend")
@@ -194,6 +236,8 @@ internal class FriendControllerComponentTest {
             }
     }
 
+    @Story("Get friend")
+    @DisplayName("Friend mapping returns empty json on no current user")
     @Test
     fun `friend mapping returns empty json on no current user`() {
         given(userService.getFriendById(any(), any())).willReturn(null)
@@ -208,6 +252,8 @@ internal class FriendControllerComponentTest {
         verify(userService).getFriendById(1L, 2L)
     }
 
+    @Story("Get friend")
+    @DisplayName("Friend mapping returns friend json")
     @Test
     fun `friend mapping returns friend json`() {
         val friendUser = User(2, "2", 2, "2")

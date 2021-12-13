@@ -3,13 +3,19 @@ package easy.soc.hacks.spring.service
 import easy.soc.hacks.spring.domain.User
 import easy.soc.hacks.spring.repository.UserRepository
 import easy.soc.hacks.spring.utils.session.Session
+import io.qameta.allure.Epic
+import io.qameta.allure.Feature
+import io.qameta.allure.Story
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.*
 import java.util.*
 import javax.servlet.http.HttpSession
 
+@Epic("Unit test")
+@Feature("User")
 internal class UserServiceTest {
     private val userRepository = mock<UserRepository>()
     private val userService = UserService(userRepository)
@@ -19,6 +25,8 @@ internal class UserServiceTest {
         verifyNoMoreInteractions(userRepository)
     }
 
+    @Story("Find all users")
+    @DisplayName("FindAll returns all presented users")
     @Test
     fun `findAll returns all presented users`() {
         val userList = listOf(
@@ -33,6 +41,8 @@ internal class UserServiceTest {
         verify(userRepository).findAllByOrderByIdDesc()
     }
 
+    @Story("Find users by id")
+    @DisplayName("FindById returns same User")
     @Test
     fun `findById returns same User`() {
         val user = User(1, "1", 1, "1")
@@ -43,6 +53,8 @@ internal class UserServiceTest {
         verify(userRepository).findById(1)
     }
 
+    @Story("Find users by id")
+    @DisplayName("FindById returns null on repository fail")
     @Test
     fun `findById returns null on repository fail`() {
         whenever(userRepository.findById(any())).thenReturn(Optional.ofNullable(null))
@@ -52,6 +64,8 @@ internal class UserServiceTest {
         verify(userRepository).findById(1)
     }
 
+    @Story("Login user")
+    @DisplayName("Login returns same User and set session attribute")
     @Test
     fun `login returns same User and set session attribute`() {
         val sessionAttributeStringBuilder = StringBuilder()
@@ -69,6 +83,8 @@ internal class UserServiceTest {
         verifyNoMoreInteractions(httpSession)
     }
 
+    @Story("Login user")
+    @DisplayName("Login returns same null on repository fail")
     @Test
     fun `login returns same null on repository fail`() {
         val user = User(1, "1", 1, "1")
@@ -81,6 +97,8 @@ internal class UserServiceTest {
         verifyNoMoreInteractions(httpSession)
     }
 
+    @Story("Deregister user")
+    @DisplayName("Deregister returns same User")
     @Test
     fun `deregister returns same User`() {
         val user = User(1, "1", 1, "1")
@@ -92,6 +110,8 @@ internal class UserServiceTest {
         verify(userRepository).delete(user)
     }
 
+    @Story("Deregister user")
+    @DisplayName("Deregister returns null on repository fail")
     @Test
     fun `deregister returns null on repository fail`() {
         val user = User(1, "1", 1, "1")
@@ -102,6 +122,8 @@ internal class UserServiceTest {
         verify(userRepository).findById(user.id)
     }
 
+    @Story("Get friend list")
+    @DisplayName("GetFriends returns same User list")
     @Test
     fun `getFriends returns same User list`() {
         val userList = listOf(
@@ -120,6 +142,8 @@ internal class UserServiceTest {
         verify(userRepository).findById(3)
     }
 
+    @Story("Get friend list")
+    @DisplayName("GetFriends returns null with no such user")
     @Test
     fun `getFriends returns null with no such user`() {
         whenever(userRepository.findById(any())).thenReturn(Optional.ofNullable(null))
@@ -129,6 +153,8 @@ internal class UserServiceTest {
         verify(userRepository).findById(1)
     }
 
+    @Story("Get friend by id")
+    @DisplayName("GetFriendById returns same User list")
     @Test
     fun `getFriendById returns same User list`() {
         val userList = listOf(
@@ -147,6 +173,8 @@ internal class UserServiceTest {
         verify(userRepository).findById(3)
     }
 
+    @Story("Get friend by id")
+    @DisplayName("GetFriendById returns null with no such user")
     @Test
     fun `getFriendById returns null with no such user`() {
         whenever(userRepository.findById(any())).thenReturn(Optional.ofNullable(null))
@@ -156,6 +184,8 @@ internal class UserServiceTest {
         verify(userRepository).findById(1)
     }
 
+    @Story("Add friend")
+    @DisplayName("AddFriend adds friend correctly")
     @Test
     fun addFriend() {
         val firstUser = User(1, "1", 1, "1")
@@ -170,6 +200,8 @@ internal class UserServiceTest {
         verify(userRepository).save(secondUser)
     }
 
+    @Story("Remove friend")
+    @DisplayName("RemoveFriend removes friend correctly")
     @Test
     fun removeFriend() {
         val firstUser = User(1, "1", 1, "1", friends = mutableSetOf(2L))
