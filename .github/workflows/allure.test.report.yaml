@@ -21,6 +21,5 @@ jobs:
       - name: Copy report
         uses: canastro/copy-action@0.0.2
         with:
-          source: ./target/allure-results
-          target: ./
-          working-directory: ./api
+          source: api/target/allure-results
+          target: api
