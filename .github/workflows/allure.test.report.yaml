@@ -22,8 +22,10 @@ jobs:
         run: ls
       - name: ls api
         run: ls ./api
-      - name: ls api report
-        run: ls ./api/allure-results
+      - name: ls target
+        run: ls ./api/target
+      - name: ls api target report
+        run: ls ./api/target/allure-results
       - name: Copy report
         uses: canastro/copy-action@0.0.2
         with:
