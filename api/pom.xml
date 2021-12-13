@@ -116,7 +116,7 @@
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-maven</artifactId>
-            <version>2.9</version>
+            <version>2.10.0</version>
         </dependency>
     </dependencies>
     <dependencyManagement>
@@ -174,7 +174,7 @@
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
-                <version>2.9</version>
+                <version>2.10.0</version>
                 <configuration>
                     <reportVersion>2.6.0</reportVersion>
                     <allureDownloadUrl>https://github.com/allure-framework/allure2/releases/download/%s/allure-%s.zip</allureDownloadUrl>
