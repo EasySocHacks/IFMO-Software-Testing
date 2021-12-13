@@ -18,8 +18,14 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
         working-directory: ./api
+      - name: ls current
+        run: ls
+      - name: ls api
+        run: ls ./api
+      - name: ls api report
+        run: ls ./api/allure-results
       - name: Copy report
         uses: canastro/copy-action@0.0.2
         with:
-          source: api/target/allure-results
-          target: api
+          source: ./api/target/allure-results
+          target: ./api
