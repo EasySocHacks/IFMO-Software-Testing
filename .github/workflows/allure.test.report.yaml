@@ -19,5 +19,8 @@ jobs:
         run: mvn -B package --file pom.xml
         working-directory: ./api
       - name: Copy report
-        run: cp -r ./target/allure-results ./
-        working-directory: ./api
+        uses: canastro/copy-action@0.0.2
+        with:
+          source: ./target/allure-results
+          target: ./
+          working-directory: ./api
