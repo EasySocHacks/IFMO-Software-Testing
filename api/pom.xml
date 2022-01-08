@@ -89,6 +89,11 @@
             <version>4.0.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.selenide</groupId>
+            <artifactId>selenide-selenoid</artifactId>
+            <version>1.2.0</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
