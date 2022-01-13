@@ -8,6 +8,11 @@ import easy.soc.hacks.spring.service.MessageService
 import easy.soc.hacks.spring.service.SequenceGeneratorService
 import easy.soc.hacks.spring.service.UserService
 import easy.soc.hacks.spring.utils.session.Session
+import io.qameta.allure.Description
+import io.qameta.allure.Epic
+import io.qameta.allure.Feature
+import io.qameta.allure.Story
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
@@ -19,6 +24,8 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 
+@Epic("Component test")
+@Feature("Chat")
 @WebMvcTest(ChatController::class)
 internal class ChatControllerComponentTest {
     @MockBean
@@ -33,6 +40,9 @@ internal class ChatControllerComponentTest {
     @Autowired
     private lateinit var mockMvc: MockMvc
 
+    @Story("Get chat messages")
+    @DisplayName("Chat mapping returns 'FORNIDDEN' on no session set")
+    @Description("Chat messages request returns 'FORBIDDEN' due to not login/register user")
     @Test
     fun `chat mapping returns FORNIDDEN on no session set`() {
         mockMvc.get("/chat")
@@ -41,6 +51,9 @@ internal class ChatControllerComponentTest {
             }
     }
 
+    @Story("Get chat messages")
+    @DisplayName("Chat mapping returns 'NOT_FOUND' on no user found")
+    @Description("Chat messages request returns 'NOT_FOUND' due to companion user not found in database")
     @Test
     fun `chat mapping returns NOT_FOUND on no user found`() {
         given(userService.findById(any())).willReturn(null)
@@ -55,8 +68,11 @@ internal class ChatControllerComponentTest {
         verify(userService).findById(1L)
     }
 
+    @Story("Get chat messages")
+    @DisplayName("Chat mapping returns json chat message list")
+    @Description("Chat messages request returns correct message list representing as json")
     @Test
-    fun `chat mapping returns json char message list`() {
+    fun `chat mapping returns json chat message list`() {
         val fromUser = User(1, "1", 1, "1")
         val toUser = User(2, "2", 2, "2")
         val messageList = listOf(
@@ -82,6 +98,9 @@ internal class ChatControllerComponentTest {
         verify(messageService).getMessagesBetween(fromUser, toUser)
     }
 
+    @Story("Send chat messages")
+    @DisplayName("SendMessage mapping returns 'FORNIDDEN' on no session set")
+    @Description("Send messages request returns 'FORNIDDEN' due to not login/register user")
     @Test
     fun `sendMessage mapping returns FORNIDDEN on no session set`() {
         mockMvc.post("/sendMessage")
@@ -90,6 +109,9 @@ internal class ChatControllerComponentTest {
             }
     }
 
+    @Story("Send chat messages")
+    @DisplayName("SendMessage mapping returns 'NOT_FOUND' on no user found")
+    @Description("Send messages request returns 'NOT_FOUND' due to companion user not found in database")
     @Test
     fun `sendMessage mapping returns NOT_FOUND on no user found`() {
         given(userService.findById(any())).willReturn(null)
@@ -106,6 +128,9 @@ internal class ChatControllerComponentTest {
         verify(userService).findById(1L)
     }
 
+    @Story("Send chat messages")
+    @DisplayName("SendMessage mapping returns OK")
+    @Description("Send messages request verify sending correct message to correct companion user. And then send OK")
     @Test
     fun `sendMessage mapping returns OK`() {
         val fromUser = User(1, "1", 1, "1")

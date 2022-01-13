@@ -1,8 +1,12 @@
 package easy.soc.hacks.spring.intergation
 
-import easy.soc.hacks.spring.domain.Message
 import easy.soc.hacks.spring.domain.User
+import io.qameta.allure.Description
+import io.qameta.allure.Epic
+import io.qameta.allure.Feature
+import io.qameta.allure.Story
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -10,9 +14,9 @@ import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
-import org.springframework.core.ParameterizedTypeReference
 import org.springframework.core.env.MapPropertySource
-import org.springframework.http.*
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod.GET
 import org.springframework.http.HttpMethod.POST
 import org.springframework.http.HttpStatus.OK
@@ -20,7 +24,8 @@ import org.springframework.test.context.ContextConfiguration
 import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.junit.jupiter.Testcontainers
 
-
+@Epic("Integration test")
+@Feature("Authorization/Register")
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = [AuthIntegrationTest.Initializer::class])
@@ -45,6 +50,9 @@ internal class AuthIntegrationTest {
     @LocalServerPort
     private var port: Int = 0
 
+    @Story("User login/register")
+    @DisplayName("User can register and login")
+    @Description("Check pipeline verify user can register, then login, then logout successfully")
     @Test
     fun `user can register and login`() {
         val restTemplate = restTemplateBuilder.build()

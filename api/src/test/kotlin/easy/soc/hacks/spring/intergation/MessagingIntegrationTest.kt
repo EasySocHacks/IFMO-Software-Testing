@@ -1,9 +1,8 @@
 package easy.soc.hacks.spring.intergation
 
-import easy.soc.hacks.spring.domain.Message
-import easy.soc.hacks.spring.domain.User
-import org.assertj.core.api.Assertions
+import io.qameta.allure.*
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -11,18 +10,18 @@ import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
-import org.springframework.core.ParameterizedTypeReference
 import org.springframework.core.env.MapPropertySource
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
-import org.springframework.http.HttpMethod.*
-import org.springframework.http.HttpStatus
-import org.springframework.http.HttpStatus.*
+import org.springframework.http.HttpMethod.GET
+import org.springframework.http.HttpMethod.POST
+import org.springframework.http.HttpStatus.OK
 import org.springframework.test.context.ContextConfiguration
 import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.junit.jupiter.Testcontainers
 
+@Epic("Integration test")
+@Feature("Message exchange")
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = [MessagingIntegrationTest.Initializer::class])
@@ -47,6 +46,13 @@ class MessagingIntegrationTest {
     @LocalServerPort
     private var port: Int = 0
 
+    @Story("Send/receive message")
+    @DisplayName("Users can write messages to each other")
+    @Description(
+        "Check pipeline verify user1 can write to user2, then user2 can read newbie message, " +
+                "then user2 can write to user1, then user1 can read both newbie messages"
+    )
+    @Flaky
     @Test
     fun `users can write messages to each other`() {
         val restTemplate = restTemplateBuilder.build()
