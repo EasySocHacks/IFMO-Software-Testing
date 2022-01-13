@@ -30,4 +30,13 @@ In this repository you can find
     * *Client tests* for run UI tests
     * *API tests* for run backend tests
 
+* **Homework-4** solution on [HW3](https://github.com/EasySocHacks/ITMO-Software-Testing/tree/HW4) branch
+  * Add allure support
+
+* **Homework-7** solution on [HW3](https://github.com/EasySocHacks/ITMO-Software-Testing/tree/HW7) branch
+  * Add tests based on following
+  * Add selenide support
+  * Add selenoid support
+  * Add allure support
+
 Each of represented branches contains their own README.md description of how-to-run and some additional info 
