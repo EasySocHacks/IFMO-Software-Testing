@@ -1,9 +1,10 @@
-package e2e
+package easy.soc.hacks.spring.e2e
 
 import com.codeborne.selenide.Condition.text
 import com.codeborne.selenide.Selectors.*
 import com.codeborne.selenide.Selenide.`$`
 import com.codeborne.selenide.Selenide.open
+import e2e.SelenoidExtension
 import io.qameta.allure.Description
 import io.qameta.allure.Epic
 import io.qameta.allure.Feature
