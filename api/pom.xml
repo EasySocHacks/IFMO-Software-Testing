@@ -90,9 +90,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.selenide</groupId>
-            <artifactId>selenide-selenoid</artifactId>
-            <version>1.2.0</version>
+            <groupId>com.codeborne</groupId>
+            <artifactId>selenide</artifactId>
+            <version>5.22.1</version>
         </dependency>
     </dependencies>
     <dependencyManagement>
